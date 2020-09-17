@@ -1,0 +1,7 @@
+# config/routes.yaml
+
+pageNotFound:
+    path: /{path}
+    controller: App\Controller\FrontController::pageNotFoundAction
+    requirements:
+        path: .*

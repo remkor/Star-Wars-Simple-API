@@ -1,0 +1,12 @@
+# config/packages/framework.yaml
+
+framework:
+    php_errors:
+        log: true
+
+    secret: '%env(APP_SECRET)%'
+
+    session:
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax

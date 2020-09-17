@@ -1,0 +1,13 @@
+# config/packages/nelmio_api_doc.yaml
+
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Star Wars
+            version: 0.0.1
+
+    models: { use_jms: false }
+
+    areas:
+        path_patterns:
+            - ^/api/v1
