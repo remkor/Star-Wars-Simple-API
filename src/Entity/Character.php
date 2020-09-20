@@ -4,6 +4,8 @@
 namespace App\Entity;
 
 use App\Repository\CharacterRepository;
+use App\Utils\Entity\BasicTrait;
+use App\Utils\Entity\NameTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -17,23 +19,9 @@ use Doctrine\ORM\Mapping\ManyToOne;
  */
 class Character
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use BasicTrait;
+    use NameTrait;
 
-    /**
-     * @ORM\Version()
-     * @ORM\Column(type="integer")
-     */
-    private $version;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
 
     /**
      * @ManyToMany(targetEntity="Episode")
@@ -71,28 +59,6 @@ class Character
         $this->friends = new ArrayCollection();
     }
 
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getVersion(): ?int
-    {
-        return $this->version;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     public function getEpisodes()
     {

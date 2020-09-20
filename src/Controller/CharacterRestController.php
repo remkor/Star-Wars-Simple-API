@@ -7,14 +7,13 @@ use App\Entity\Character;
 use App\Model\CharacterResponse;
 use App\Model\Response as BaseResponse;
 use App\Utils\Controller\AbstractCharacterRestController;
-use App\Utils\Controller\CRUDInterface;
+use App\Utils\Interfaces\CRUDInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Route;
-use FOS\RestBundle\View\View as BaseView;
 use Knp\Component\Pager\PaginatorInterface;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +24,12 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CharacterRestController extends AbstractCharacterRestController implements CRUDInterface
 {
+    /**
+     * CharacterRestController constructor
+     *
+     * @param EntityManagerInterface $entityManager
+     * @param PaginatorInterface $paginator
+     */
     public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator)
     {
         parent::__construct($entityManager, $paginator);
@@ -84,10 +89,7 @@ class CharacterRestController extends AbstractCharacterRestController implements
             'pagination' => $pagination->getPaginationData(),
         ];
 
-        $view = new BaseView();
-        $view->setData($data);
-
-        return $this->handleView($view);
+        return $this->handleResponse($data);
     }
 
     /**
@@ -133,12 +135,12 @@ class CharacterRestController extends AbstractCharacterRestController implements
      */
     public function createAction(Request $request)
     {
-        $view = new BaseView();
-
         $name = $request->get('name', '');
 
+        $response = new CharacterResponse();
+
         if (empty($name)) {
-            $view->setData(['result' => 'ERROR']);
+            $response->setResult('ERROR');;
         }
         else {
             $episodes = $request->get('episodes', []);
@@ -154,17 +156,15 @@ class CharacterRestController extends AbstractCharacterRestController implements
 
                 $this->persistEntity($character);
 
-                $view->setData([
-                    'id' => $character->getId(),
-                    'result' => 'SUCCESS',
-                ]);
+                $response->setCharacter($character);
+                $response->setResult('SUCCESS');
             }
             else {
-                $view->setData(['result' => 'ERROR']);
+                $response->setResult('ERROR');;
             }
         }
 
-        return $this->handleView($view);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -216,10 +216,7 @@ class CharacterRestController extends AbstractCharacterRestController implements
             $response->setResult('ERROR');
         }
 
-        $view = new BaseView();
-        $view->setData($response);
-
-        return $this->handleView($view);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -267,14 +264,14 @@ class CharacterRestController extends AbstractCharacterRestController implements
     {
         $id = $request->get('id');
 
-        $view = new BaseView();
+        $response = new CharacterResponse();
 
         if (!empty($id)) {
             /** @var Character $character */
             $character = $this->getEntity(Character::class, ['id' => $id]);
 
             if (!$character) {
-                $view->setData(['result' => 'ERROR']);
+                $response->setResult('ERROR');
             }
             else {
                 $name = $request->get('name', $character->getName());
@@ -286,17 +283,15 @@ class CharacterRestController extends AbstractCharacterRestController implements
 
                 $this->entityManager->flush();
 
-                $view->setData([
-                    'character' => $character,
-                    'result' => 'SUCCESS',
-                ]);
+                $response->setCharacter($character);
+                $response->setResult('SUCCESS');
             }
         }
         else {
-            $view->setData(['result' => 'ERROR']);
+            $response->setResult('ERROR');
         }
 
-        return $this->handleView($view);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -332,7 +327,7 @@ class CharacterRestController extends AbstractCharacterRestController implements
                 $response->setResult('ERROR');
             }
             else {
-                $this->deleteEntity($character);
+                $this->removeEntity($character);
 
                 $response->setResult('SUCCESS');
             }
@@ -341,9 +336,6 @@ class CharacterRestController extends AbstractCharacterRestController implements
             $response->setResult('ERROR');
         }
 
-        $view = new BaseView();
-        $view->setData($response);
-
-        return $this->handleView($view);
+        return $this->handleResponse($response);
     }
 }

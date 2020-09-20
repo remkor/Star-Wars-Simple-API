@@ -1,7 +1,7 @@
 <?php
-// src/Utils/Controller/CRUDInterface.php
+// src/Utils/Interfaces/CRUDInterface.php
 
-namespace App\Utils\Controller;
+namespace App\Utils\Interfaces;
 
 use Symfony\Component\HttpFoundation\Request;
 

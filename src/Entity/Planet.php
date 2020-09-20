@@ -4,6 +4,8 @@
 namespace App\Entity;
 
 use App\Repository\PlanetRepository;
+use App\Utils\Entity\BasicTrait;
+use App\Utils\Entity\NameTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,50 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Planet
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Version()
-     * @ORM\Column(type="integer")
-     */
-    private $version;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
+    use BasicTrait;
+    use NameTrait;
 
     public function __construct()
     {
         $this->name = '';
-    }
-
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getVersion(): ?int
-    {
-        return $this->version;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 }

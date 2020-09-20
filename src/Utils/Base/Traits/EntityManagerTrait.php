@@ -1,31 +1,17 @@
 <?php
-// src/Utils/Controller/AbstractRestController.php
+// src/Utils/Base/Trait/EntityManagerTrait.php
 
-namespace App\Utils\Controller;
+namespace App\Utils\Base\Traits;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use Knp\Component\Pager\PaginatorInterface;
 
-abstract class AbstractRestController extends AbstractFOSRestController
+trait EntityManagerTrait
 {
     /**
      * @var EntityManagerInterface
      */
     protected $entityManager;
-
-    /**
-     * @var PaginatorInterface
-     */
-    protected $paginator;
-
-    public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator)
-    {
-        $this->entityManager = $entityManager;
-
-        $this->paginator = $paginator;
-    }
 
     /**
      * @param string $className
@@ -65,7 +51,7 @@ abstract class AbstractRestController extends AbstractFOSRestController
     /**
      * @param $entity
      */
-    protected function deleteEntity(&$entity): void
+    protected function removeEntity(&$entity): void
     {
         $this->entityManager->remove($entity);
 

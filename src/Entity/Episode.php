@@ -4,6 +4,7 @@
 namespace App\Entity;
 
 use App\Repository\EpisodeRepository;
+use App\Utils\Entity\BasicTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,18 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Episode
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use BasicTrait;
 
-    /**
-     * @ORM\Version()
-     * @ORM\Column(type="integer")
-     */
-    private $version;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -36,16 +27,6 @@ class Episode
         $this->title = '';
     }
 
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getVersion(): ?int
-    {
-        return $this->version;
-    }
 
     public function getTitle(): ?string
     {

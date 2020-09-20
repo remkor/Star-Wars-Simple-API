@@ -10,7 +10,7 @@ class CharacterResponse extends Response
     /**
      * @var Character
      */
-    private $character;
+    protected $character;
 
 
     public function __construct()

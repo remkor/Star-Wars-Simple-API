@@ -6,12 +6,19 @@ namespace App\Utils\Controller;
 use App\Entity\Character;
 use App\Entity\Episode;
 use App\Entity\Planet;
+use App\Utils\Base\AbstractRestController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 abstract class AbstractCharacterRestController extends AbstractRestController
 {
+    /**
+     * AbstractCharacterRestController constructor
+     *
+     * @param EntityManagerInterface $entityManager
+     * @param PaginatorInterface $paginator
+     */
     public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator)
     {
         parent::__construct($entityManager, $paginator);

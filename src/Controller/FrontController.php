@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
 
 class FrontController extends AbstractController
 {
@@ -14,7 +13,7 @@ class FrontController extends AbstractController
      */
     public function frontAction()
     {
-        return new Response();
+        return $this->redirectToRoute('app.swagger_ui');
     }
 
     public function pageNotFoundAction()
